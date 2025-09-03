@@ -62,8 +62,8 @@ flowchart LR
 1. **Clone**
 
 ```bash
-git clone https://github.com/rubenpeq/Bitzer_Project.git
-cd Bitzer_Project
+git clone https://github.com/rubenpeq/BITZER_APP.git
+cd BITZER_APP
 ```
 
 2. **Start Postgres (via Docker Compose)**
@@ -118,8 +118,6 @@ npm run build
 
 Set these environment variables either in a `.env` file or in your docker-compose `environment:` section.
 
-### Frontend (Vite)
-
 Create `.env` at the project root:
 
 ```
@@ -159,6 +157,27 @@ VITE_FASTAPI_URL=/api
 ## Deploying (Docker Compose - full stack)
 
 From project root build & start the whole stack:
+
+### Generate certs (`bitzer.crt` and `bitzer.key`)
+
+Run these commands **from the project root**.
+
+1. Create certs directory:
+```bash
+mkdir -p nginx/certs
+
+After setting up `.env` and certs:
+```
+
+2. Generate cert and key:
+```bash
+mkcert -cert-file nginx/certs/bitzer.crt -key-file nginx/certs/bitzer.key localhost 127.0.0.1 ::1
+```
+
+3. Set permissions so nginx can read them:
+```
+chmod 644 nginx/certs/bitzer.crt nginx/certs/bitzer.key
+```
 
 ```bash
 # build images and start containers (foreground)
