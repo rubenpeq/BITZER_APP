@@ -1,0 +1,432 @@
+/* ---------- Layout root variables ---------- */
+/* navbar height used by JS and CSS to offset fixed navbar */
+:root {
+  --app-navbar-height: 80px;
+}
+
+/* Make navbar height slightly smaller on very narrow screens */
+@media (max-width: 576px) {
+  :root {
+    --app-navbar-height: 64px;
+  }
+}
+
+/* ---------- Global / document styles ---------- */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  background: black;
+  color: white;
+  /* keep page content below the fixed navbar */
+  padding-top: var(--app-navbar-height);
+  overflow-x: hidden; /* avoid horizontal scroll from wide elements */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Sticky table header ---------- */
+.sticky-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2; /* stay above table rows */
+}
+
+/* ---------- Navbar right-side controls ---------- */
+.app-navbar-container {
+  position: relative;
+  max-width: 1200px; /* optional: keep brand visually centered */
+  margin: 0 auto;
+}
+
+/* right side controls pinned to the right and vertically centered */
+.app-navbar-right {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2000; /* keep dropdown over other content */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Admin button appearance when variant="link" (force white text) */
+.app-admin-button,
+.app-login-button {
+  color: #fff !important;
+  padding: 0.375rem 0.75rem;
+  text-decoration: none !important;
+  font-size: 0.95rem;
+}
+
+/* Make sure NavDropdown toggle text is white */
+.app-user-title {
+  color: #fff;
+}
+
+/* Ensure the dropdown toggle text (Bootstrap's .dropdown-toggle) also inherits white color */
+.app-user-dropdown .dropdown-toggle {
+  color: #fff !important;
+}
+
+/* Ensure the dropdown menu appears above other elements (Popper/bs may set z-index, but ensure container stacking) */
+.app-user-dropdown-wrap {
+  position: relative;
+  z-index: 2001;
+}
+
+/* Slight contrast tweak for dropdown menu in dark theme */
+.app-user-dropdown .dropdown-menu {
+  background: #1f2933;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- Home Page Styles ---------- */
+/* NOTE: avoid fixed heights so content can grow/scroll */
+.home-container {
+  min-height: calc(100vh - var(--app-navbar-height)); /* fills viewport beneath navbar, but will grow if content grows */
+  padding: 1rem;
+  position: relative;
+}
+
+/* loading state centered within viewport area (beneath navbar) */
+.loading-container {
+  min-height: calc(60vh - var(--app-navbar-height));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* table scroll area — independent scrolling within the table area */
+.table-container {
+  max-height: 55vh;
+  overflow-y: auto;
+}
+
+/* small tweaks for table layout */
+.table-header {
+  cursor: pointer;
+  text-align: center;
+}
+
+.table-row {
+  cursor: pointer;
+}
+
+/* Floating action button */
+.fab-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1050;
+}
+
+/* ---------- Order / Task Detail Page Styles ---------- */
+/* IMPORTANT: use min-height instead of height:100% so page can grow and document scroll works */
+.order-container {
+  min-height: calc(100vh - var(--app-navbar-height));
+  padding: 1rem;
+  position: relative;
+  /* do not set overflow hidden — let the document handle scrolling */
+  overflow: visible;
+}
+
+/* Card */
+.order-card {
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+}
+
+.order-card-title {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.order-card-value {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* Large action button (timer) */
+.task-action-button {
+  width: 500px;
+  height: 140px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Responsive adjustments for task action button */
+@media (max-width: 576px) {
+  .task-action-button {
+    width: 100%;
+    height: 100px;
+    font-size: 1.5rem;
+  }
+}
+
+/* Reduced margins so we don't create unnecessary empty space that can confuse scrolling */
+.task-action-button-container {
+  margin-top: 2rem; /* reduced from 6rem to avoid big blank area */
+  margin-bottom: 2rem;
+}
+
+/* ---------- Modal Styles ---------- */
+.modal-content {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+.modal-header {
+  border-bottom: 1px solid #444;
+}
+
+.modal-footer {
+  border-top: 1px solid #444;
+}
+
+.modal-content .form-control {
+  background-color: #2a2a2a;
+  color: #fff;
+  border-color: #444;
+}
+
+.modal-content .form-control:focus {
+  background-color: #2a2a2a;
+  color: #fff;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.modal-content .form-label {
+  color: #fff;
+}
+
+.create-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* Placeholder white across browsers */
+.white-placeholder::placeholder,
+.white-placeholder::-webkit-input-placeholder,
+.white-placeholder::-moz-placeholder,
+.white-placeholder:-ms-input-placeholder,
+.white-placeholder:-moz-placeholder {
+  color: #fff !important;
+  opacity: 0.7;
+}
+
+/* Ensure the placeholder stays white when input is focused */
+.white-placeholder:focus::placeholder {
+  color: #fff !important;
+  opacity: 0.7;
+}
+
+/* Close button tweaks for dark modal */
+.modal-header .btn-close {
+  filter: invert(1);
+  opacity: 0.8;
+  position: absolute;
+  right: 1rem;
+  margin: 0;
+}
+
+.modal-header .btn-close:hover {
+  opacity: 1;
+}
+
+/* For Bootstrap 5 compatibility */
+.btn-close-white {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Progress bar container */
+.progress-container {
+  position: relative;
+  height: 1.8rem;
+}
+
+.progress-container .progress {
+  height: 100%;
+}
+
+.progress-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #000;
+  pointer-events: none;
+}
+
+/* Clickable card */
+.clickable {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.clickable:hover {
+  transform: translateY(-2px);
+}
+
+/* Specific class for dark selects */
+.dark-select {
+  background-color: #2a2a2a !important;
+  color: #fff !important;
+  border-color: #444 !important;
+}
+
+.dark-select:focus {
+  background-color: #2a2a2a !important;
+  color: #fff !important;
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25) !important;
+}
+
+.dark-select option {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.dark-select:invalid {
+  color: #fff !important;
+  opacity: 0.7;
+}
+
+/* Custom select wrapper */
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.select-wrapper::after {
+  content: "▼";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.modal-content .form-select {
+  padding-right: 2.5rem; /* Make space for custom arrow */
+  appearance: none; /* Hide default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Remove number spinners for inputs */
+.no-spinners::-webkit-outer-spin-button,
+.no-spinners::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-spinners {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* Non-editable card style */
+.non-editable-card {
+  cursor: default !important;
+  opacity: 0.95;
+}
+
+.non-editable-card .order-card-title,
+.non-editable-card .order-card-value {
+  color: #222 !important; /* Slightly lighter dark */
+}
+
+.non-editable-card:hover {
+  transform: none !important; /* Remove hover effect */
+}
+
+/* ---------- Navbar overlay behavior ---------- */
+/* base navbar: fixed and opaque (pre-scroll) */
+.app-navbar {
+  position: fixed; /* still fixed so dropdowns work */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+  height: var(--app-navbar-height);
+  background-color: #000; /* opaque at page load */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background-color 200ms ease, backdrop-filter 200ms ease, box-shadow 200ms ease;
+}
+
+/* when user scrolls, add this class to make the navbar overlay content */
+.app-navbar--overlay {
+  background-color: rgba(0, 0, 0, 0.35); /* semi-transparent */
+  backdrop-filter: blur(4px); /* subtle blur */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- Combo / dropdown styles ---------- */
+.custom-dropdown {
+  background: #1f1f1f; /* solid dark background */
+  border: 1px solid #444; /* subtle border */
+  border-radius: 0.25rem;
+  z-index: 1000;
+}
+
+.custom-dropdown .list-group-item {
+  background: #1f1f1f;
+  color: #fff;
+}
+
+.custom-dropdown .list-group-item-action:hover,
+.custom-dropdown .list-group-item-action.active {
+  background: #0d6efd;
+  color: #fff;
+}
+
+/* dropdown used by machine/operator comboboxes */
+.combo-list {
+  position: absolute;
+  width: 100%;
+  max-height: 240px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  background: #0f1720;
+  border: 1px solid #444;
+  border-radius: 0.25rem;
+  padding: 0.2rem 0;
+  z-index: 1200;
+}
+
+/* ensure each list item participates in normal flow */
+.combo-list .list-group-item {
+  display: block !important;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.75rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: transparent;
+  border: none;
+}
+
+.combo-list .list-group-item-action:hover,
+.combo-list .list-group-item-action.active {
+  background: #0d6efd;
+  color: #fff;
+}
