@@ -156,7 +156,6 @@ VITE_FASTAPI_URL=/api
 
 ## Deploying (Docker Compose - full stack)
 
-From project root build & start the whole stack:
 
 ### Generate certs (`bitzer.crt` and `bitzer.key`)
 
@@ -166,7 +165,6 @@ Run these commands **from the project root**.
 ```bash
 mkdir -p nginx/certs
 
-After setting up `.env` and certs:
 ```
 
 2. Generate cert and key:
@@ -174,10 +172,8 @@ After setting up `.env` and certs:
 mkcert -cert-file nginx/certs/bitzer.crt -key-file nginx/certs/bitzer.key localhost 127.0.0.1 ::1
 ```
 
-3. Set permissions so nginx can read them:
-```
-chmod 644 nginx/certs/bitzer.crt nginx/certs/bitzer.key
-```
+### From project root build & start the whole stack:
+After setting up `.env` and certs:
 
 ```bash
 # build images and start containers (foreground)
